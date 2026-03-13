@@ -101,7 +101,7 @@ const Gallery = () => {
                 <Heart />
               </button>
 
-              <div className="absolute text-md font-bold pl-2 bottom-4 text-white opacity-100">
+              <div className="absolute text-md font-bold pl-2 bottom-4 text-white text-start opacity-100">
                 <p>{photo.author}</p>
                 <p>
                   {photo.width} X {photo.height}
