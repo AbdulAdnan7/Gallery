@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useReducer, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useReducer, useState } from "react";
 import useFetchPhotos from "../../hooks/useFetchPhotos";
 import favouriteReducer from "../../reducers/favouritesReducer";
 import { Heart } from "lucide-react";
@@ -17,12 +17,16 @@ const Gallery = () => {
     setSearch(e.target.value)
   })
 
-  const filterPhotos = photos.filter((photo) => {
+  const filterPhotos = useMemo(() => {
+  return photos
+  .filter((photo) => {
     if(activeTab === 'favourites') {
         return favourites.includes(photo.id)
     }
     return true
   }).filter((photo) => photo.author.toLowerCase().includes(search.toLocaleLowerCase()))
+  }, [photos, favourites, search, activeTab] )
+   
 
   useEffect(() => {
     localStorage.setItem('favourites', JSON.stringify(favourites))
