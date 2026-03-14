@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useReducer, useState } from "react";
 import useFetchPhotos from "../../hooks/useFetchPhotos";
 import favouriteReducer from "../../reducers/favouritesReducer";
-import { Heart } from "lucide-react";
+import { Heart, Loader } from "lucide-react";
 import SearchBar from "./SearchBar";
 
 const Gallery = () => {
@@ -17,6 +17,7 @@ const Gallery = () => {
     setSearch(e.target.value)
   })
 
+  {/**for Filtering photos */}
   const filterPhotos = useMemo(() => {
   return photos
   .filter((photo) => {
@@ -28,6 +29,7 @@ const Gallery = () => {
   }, [photos, favourites, search, activeTab] )
    
 
+  { /**For local storage */ }
   useEffect(() => {
     localStorage.setItem('favourites', JSON.stringify(favourites))
   }, [favourites])
@@ -35,7 +37,7 @@ const Gallery = () => {
   if (loading)
     return (
       <p className="text-3xl flex items-center justify-center min-h-screen">
-        Loading....
+        <Loader />
       </p>
     );
 
@@ -52,6 +54,7 @@ const Gallery = () => {
 
   <div className="flex gap-4">
 
+{/** ALl */}
     <button
       onClick={() => setActiveTab("all")}
       className={`px-4 py-2 rounded-lg ${
@@ -61,6 +64,7 @@ const Gallery = () => {
       All
     </button>
 
+{/** Favourite */}
     <button
       onClick={() => setActiveTab("favourites")}
       className={`px-4 py-2 rounded-lg ${
@@ -72,6 +76,7 @@ const Gallery = () => {
 
   </div>
 
+{/** PASSING PROPS */}
    <SearchBar 
    search={search}
    onSearchChange={handleSearchChange}
@@ -89,7 +94,8 @@ const Gallery = () => {
                 alt={photo.author}
                 className="w-full h-72 object-cover rounded-xl mt-4"
               />
-
+               
+               {/** Favoruite button */}
               <button
                 className={`absolute right-6 top-10 z-10 p-2 transition
                 ${isFavorite ? "text-red-500 fill-red-500" : "text-white"}
@@ -104,7 +110,8 @@ const Gallery = () => {
               >
                 <Heart />
               </button>
-
+  
+  {/** Author name and width and height of the image */}
               <div className="absolute text-md font-bold pl-2 bottom-4 text-white text-start opacity-100">
                 <p>{photo.author}</p>
                 <p>
